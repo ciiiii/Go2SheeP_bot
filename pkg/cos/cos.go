@@ -53,3 +53,8 @@ func (c Client) Upload(path string) (string, error) {
 	u := c.client.BaseURL.BucketURL.String() + "/" + key
 	return u, err
 }
+
+func (c Client) Delete(key string) error {
+	_, err := c.client.Object.Delete(context.Background(), key)
+	return err
+}

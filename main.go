@@ -55,7 +55,7 @@ func main() {
 			fmt.Println(err)
 			return
 		}
-		bot.Send(m.Sender, "⏬️ start downloading\n")
+		bot.Send(m.Sender, "💤 start downloading\n")
 		tmpFile, err := utils.DownloadAsTmp(fileUrl)
 		defer utils.DeleteFile(tmpFile)
 		if err != nil {
@@ -63,7 +63,7 @@ func main() {
 			fmt.Println(err)
 			return
 		}
-		bot.Send(m.Sender, "⏫ start uploading\n")
+		bot.Send(m.Sender, "💤 start uploading\n")
 		cosUrl, err := cosService.Upload(tmpFile)
 		if err != nil {
 			bot.Send(m.Sender, "👎 something wrong")
