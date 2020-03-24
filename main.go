@@ -7,10 +7,10 @@ import (
 )
 
 func main() {
-	ok := bot.ManageWebHook("set")
-	if !ok {
-		panic("can't set webhook")
-	}
+	//ok := bot.ManageWebHook("set")
+	//if !ok {
+	//	panic("can't set webhook")
+	//}
 	webHook := &tb.Webhook{
 		Listen:   ":" + config.Parser().Deploy.Port,
 		Endpoint: &tb.WebhookEndpoint{PublicURL: config.Parser().Bot.PublicUrl},
