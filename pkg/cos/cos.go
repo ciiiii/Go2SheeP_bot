@@ -5,9 +5,10 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"strings"
+
 	"github.com/ciiiii/Go2SheeP_bot/pkg/utils"
 	"github.com/tencentyun/cos-go-sdk-v5"
-	"strings"
 )
 
 type Client struct {
@@ -28,18 +29,18 @@ func NewCos(bucket, region, secretId, secretKey string) *Client {
 	return &c
 }
 
-func (c Client) List() ([]string, error) {
-	opt := cos.BucketGetOptions{MaxKeys: 24}
-
-	r, _, err := c.client.Bucket.Get(context.Background(), &opt)
+func (c Client) List(marker string, limit int) ([]string, error) {
+	opt := &cos.BucketGetOptions{Marker: marker, MaxKeys: limit}
+	r, _, err := c.client.Bucket.Get(context.Background(), opt)
 	if err != nil {
+		panic(err)
 		return nil, err
 	}
 	var fileList []string
 	for _, o := range r.Contents {
 		if o.Size != 0 {
-			f := c.client.BaseURL.BucketURL.String() + "/" + o.Key
-			fileList = append(fileList, f)
+			//f := c.client.BaseURL.BucketURL.String() + "/" + o.Key
+			fileList = append(fileList, o.Key)
 		}
 	}
 	return fileList, nil

@@ -1,15 +1,17 @@
 package utils
 
 import (
-	"github.com/lithammer/shortuuid"
-	"net/http"
-	"io/ioutil"
-	"fmt"
 	"encoding/json"
-	"github.com/pkg/errors"
-	"os"
+	"fmt"
 	"io"
+	"io/ioutil"
+	"net/http"
+	"os"
 	"strings"
+	"unicode"
+
+	"github.com/lithammer/shortuuid"
+	"github.com/pkg/errors"
 )
 
 func UUID() string {
@@ -29,7 +31,7 @@ func GetFileUrl(token, fileId string) (string, error) {
 		return "", err
 	}
 	var r struct {
-		Ok bool `json:"ok"`
+		Ok     bool `json:"ok"`
 		Result struct {
 			FilePath string `json:"file_path"`
 		} `json:"result"`
@@ -65,6 +67,21 @@ func DownloadAsTmp(fileUrl string) (string, error) {
 	return tmpPath, err
 }
 
-func DeleteFile(filePath string)  {
+func DeleteFile(filePath string) {
 	os.Remove(filePath)
+}
+
+func ParseImageKey(url string) string {
+	splitStr := strings.Split(url, "/")
+	return splitStr[len(splitStr)-1]
+}
+
+func CleanInvalidStr(o string) string {
+	printOnly := func(r rune) rune {
+		if unicode.IsPrint(r) {
+			return r
+		}
+		return -1
+	}
+	return strings.Map(printOnly, o)
 }
