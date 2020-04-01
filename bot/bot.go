@@ -1,9 +1,8 @@
 package bot
 
 import (
-	"fmt"
-
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -37,7 +36,7 @@ func NewBot(p tb.Poller) *tb.Bot {
 	cosService = cos.NewCos(config.Parser().Cos.Bucket, config.Parser().Cos.Region, config.Parser().Cos.SecretId, config.Parser().Cos.SecretKey)
 
 	bot.Handle(tb.OnText, func(m *tb.Message) {
-		bot.Send(m.Sender, m.Text)
+		bot.Reply(m, m.Text)
 	})
 
 	bot.Handle(tb.OnPhoto, func(m *tb.Message) {
@@ -71,28 +70,28 @@ func NewBot(p tb.Poller) *tb.Bot {
 
 	bot.Handle("/en", func(m *tb.Message) {
 		if len(m.Payload) == 0 {
-			bot.Send(m.Sender, "⚠️ input string is invalid")
+			bot.Reply(m, "⚠️ input string is invalid")
 			return
 		}
 		result, err := tr.Translate("auto", "en", m.Payload)
 		if err != nil {
-			bot.Send(m.Sender, "👎 translate failed")
+			bot.Reply(m, "👎 translate failed")
 			return
 		}
-		bot.Send(m.Sender, fmt.Sprintf("👌 %s", result))
+		bot.Reply(m, fmt.Sprintf("👌 %s", result))
 	})
 
 	bot.Handle("/cn", func(m *tb.Message) {
 		if len(m.Payload) == 0 {
-			bot.Send(m.Sender, "⚠️ input string is invalid")
+			bot.Reply(m, "⚠️ input string is invalid")
 			return
 		}
 		result, err := tr.Translate("auto", "en", m.Payload)
 		if err != nil {
-			bot.Send(m.Sender, "👎 translate failed")
+			bot.Reply(m, "👎 translate failed")
 			return
 		}
-		bot.Send(m.Sender, fmt.Sprintf("👌 %s", result))
+		bot.Reply(m, fmt.Sprintf("👌 %s", result))
 	})
 
 	bot.Handle("/images", func(m *tb.Message) {
