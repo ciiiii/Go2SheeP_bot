@@ -3,7 +3,7 @@ module github.com/ciiiii/Go2SheeP_bot
 go 1.14
 
 require (
-	github.com/BurntSushi/toml v0.3.1
+	github.com/BurntSushi/toml v1.2.0
 	github.com/caarlos0/env/v6 v6.3.0
 	github.com/lithammer/shortuuid v2.0.3+incompatible
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
